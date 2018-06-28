@@ -71,4 +71,16 @@ public class TopicController {
 	public Object getTeamInfo(@RequestParam(value = "name", required=false) String name){
 		return topicService.getTeamInfo(name);
 	}
+	
+	@PostMapping(value= "signUp")
+	public Object registerAccount(@RequestBody SignUpRequest signUpRequest){
+		
+		return topicService.registerAccount(signUpRequest);
+	}
+	
+	@RequestMapping("getLoginDetails")
+	public Object getLoginDetails(@RequestParam(value = "userId") String userId) {
+		
+		return topicService.getLoginDetails(userId);
+	}
 }

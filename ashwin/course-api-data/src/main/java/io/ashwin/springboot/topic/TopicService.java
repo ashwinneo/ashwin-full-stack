@@ -117,5 +117,17 @@ public class TopicService {
 		Object t = topicDao.getTeamInfo(name);
 		return t;
 	}
+	
+	public Object registerAccount(SignUpRequest signUpRequest) {
+		Object t = topicDao.registerAccount(signUpRequest);
+		return t;
+	}
+	
+	public Object getLoginDetails(String userId) {
+		
+		Object t = topicDao.getLoginDetails(userId);
+		return t;
+		
+	}
 }
 	

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import io.ashwin.springboot.response.ErrorResponse;
 import io.ashwin.springboot.response.TopicResponse;
+import io.ashwin.springboot.topic.SignUpRequest;
 import io.ashwin.springboot.topic.TeamInfo;
 import io.ashwin.springboot.topic.Topic;
 
@@ -170,11 +171,26 @@ public class TopicDaoImpl implements TopicDao {
 		}
 
 	}
+	
+	private static final class LoginMapper implements RowMapper {
+
+		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
+			SignUpRequest c = new SignUpRequest();
+
+			c.setFullName(rs.getString("full_name"));
+			c.setEmail(rs.getString("email"));
+			c.setUserName(rs.getString("user_name"));
+			c.setPassword(rs.getString("password"));
+			c.setRepeatPassword(rs.getString("repeat_password"));
+			return c;
+		}
+
+	}
 
 	@Override
 	public Object getTeamInfo(String name) {
 		// TODO Auto-generated method stub
-		String query = "SELECT * FROM TEAM_INFO WHERE TEAMNAME=?";
+		String query = "SELECT * FROM TEAM_INFO WHERE TEAMNAME = ?";
 		try {
 //			Topic t = (Topic) jdbcTemplate.queryForObject(query,
 //					new Object[] { league }, new TopicMapper());
@@ -197,6 +213,52 @@ public class TopicDaoImpl implements TopicDao {
 			errorResponse.setErrorMessage("No Data Found!");
 			return errorResponse;
 
+		}
+	}
+	
+	public Object registerAccount(SignUpRequest signUpRequest){
+		
+		String query = "INSERT INTO USER (FULL_NAME,EMAIL,USER_NAME,PASSWORD,REPEAT_PASSWORD) VALUES (?,?,?,?,?)";
+		
+		int count = jdbcTemplate.update(query, signUpRequest.getFullName(),signUpRequest.getEmail()
+				,signUpRequest.getUserName(),signUpRequest.getPassword()
+				,signUpRequest.getRepeatPassword());
+		if (count == 1) {
+			TopicResponse topicResp = new TopicResponse();
+			topicResp.setAppStatus(0);
+			topicResp.setStatus("200");
+			topicResp.setSuccessMessage("Successfully Registered");
+			topicResp.setLeagueResponse(signUpRequest.getFullName());
+			return topicResp;
+		} else {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("Error while adding");
+			return errorResponse;
+		}
+	}
+	
+	public Object getLoginDetails(String userId) {
+		
+		String query = "SELECT * FROM USER WHERE user_name = ?";
+		try{
+		Object list = jdbcTemplate.query(query,new Object[] { userId },
+				new LoginMapper());
+		TopicResponse topicResp = new TopicResponse();
+		topicResp.setAppStatus(0);
+		topicResp.setStatus("200");
+		topicResp.setSuccessMessage("Team Infomation Successfully Fetched");
+		topicResp.setLeagueResponse(list);
+		return topicResp;
+		}catch(Exception e){
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("No Data Found!");
+			return errorResponse;
 		}
 	}
 }
