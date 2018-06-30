@@ -182,6 +182,7 @@ public class TopicDaoImpl implements TopicDao {
 			c.setUserName(rs.getString("user_name"));
 			c.setPassword(rs.getString("password"));
 			c.setRepeatPassword(rs.getString("repeat_password"));
+			c.setId(rs.getString("id"));
 			return c;
 		}
 
@@ -240,11 +241,11 @@ public class TopicDaoImpl implements TopicDao {
 		}
 	}
 	
-	public Object getLoginDetails(String userId) {
+	public Object getLoginDetails(String userId, String password, String emailId) {
 		
-		String query = "SELECT * FROM USER WHERE user_name = ?";
+		String query = "SELECT * FROM USER WHERE user_name = ? OR password = ? OR email = ?";
 		try{
-		Object list = jdbcTemplate.query(query,new Object[] { userId },
+		Object list = jdbcTemplate.query(query,new Object[] { userId, password, emailId },
 				new LoginMapper());
 		TopicResponse topicResp = new TopicResponse();
 		topicResp.setAppStatus(0);
@@ -257,8 +258,36 @@ public class TopicDaoImpl implements TopicDao {
 			errorResponse.setAppStatus(1);
 			errorResponse.setStatus("200");
 			errorResponse.setErrorId(1000);
-			errorResponse.setErrorMessage("No Data Found!");
+			errorResponse.setErrorMessage("EmailId not Found!");
 			return errorResponse;
+		}
+	}
+
+	@Override
+	public Object updatePassword(SignUpRequest signUpRequest, String id) {
+		
+		String query = "UPDATE USER SET password=? , repeat_password=? where id=?";
+		try{
+		int count = jdbcTemplate.update(query, signUpRequest.getPassword(),
+				signUpRequest.getRepeatPassword(),signUpRequest.getId());
+
+		if (count == 1) {
+			TopicResponse topicResp = new TopicResponse();
+			topicResp.setAppStatus(0);
+			topicResp.setStatus("200");
+			topicResp.setSuccessMessage("Password Successfully Updated");
+			topicResp.setLeagueResponse(signUpRequest.getPassword());
+			return topicResp;
+		} else {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("Error while updating password");
+			return errorResponse;
+		}
+		}catch(Exception e) {
+			return null;
 		}
 	}
 }

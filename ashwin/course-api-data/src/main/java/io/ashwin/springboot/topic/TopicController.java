@@ -79,8 +79,14 @@ public class TopicController {
 	}
 	
 	@RequestMapping("getLoginDetails")
-	public Object getLoginDetails(@RequestParam(value = "userId") String userId) {
+	public Object getLoginDetails(@RequestParam(value = "userId" , required=false) String userId, @RequestParam(value = "password" , required=false) String password, @RequestParam(value = "emailId" , required=false) String emailId) {
 		
-		return topicService.getLoginDetails(userId);
+		return topicService.getLoginDetails(userId,password,emailId);
+	}
+	
+	@PutMapping(value = "updatePassword")
+	public Object updatePassword(@RequestBody SignUpRequest signUpRequest ,@RequestParam(value = "id", required=false)  String id){
+		
+		return topicService.updatePassword(signUpRequest,id);
 	}
 }

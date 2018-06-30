@@ -123,11 +123,15 @@ public class TopicService {
 		return t;
 	}
 	
-	public Object getLoginDetails(String userId) {
+	public Object getLoginDetails(String userId, String password, String emailId) {
 		
-		Object t = topicDao.getLoginDetails(userId);
+		Object t = topicDao.getLoginDetails(userId, password, emailId);
 		return t;
 		
+	}
+	public Object updatePassword(SignUpRequest signUpRequest, String id) {
+		Object t = topicDao.updatePassword(signUpRequest, id);
+		return t;
 	}
 }
 	

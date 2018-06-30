@@ -16,5 +16,6 @@ public interface TopicDao {
 	Object deleteTopic(String id);
 	Object getTeamInfo(String name);
 	Object registerAccount(SignUpRequest signUpRequest);
-	Object getLoginDetails(String userId);
+	Object getLoginDetails(String userId, String password, String emailId);
+	Object updatePassword(SignUpRequest signUpRequest, String id);
 }
