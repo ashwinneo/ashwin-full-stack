@@ -84,7 +84,7 @@ public class TopicController {
 		return topicService.getLoginDetails(userId,password,emailId);
 	}
 	
-	@PutMapping(value = "updatePassword")
+	@PutMapping(value = "updateUserDetails")
 	public Object updatePassword(@RequestBody SignUpRequest signUpRequest ,@RequestParam(value = "id", required=false)  String id){
 		
 		return topicService.updatePassword(signUpRequest,id);

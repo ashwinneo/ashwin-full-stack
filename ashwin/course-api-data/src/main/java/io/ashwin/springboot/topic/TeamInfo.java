@@ -9,6 +9,48 @@ public class TeamInfo {
 	String location;
 	String teamSponsor;
 	String teamKitSponsor;
+	String matchPlayed;
+	String wins;
+	String losses;
+	String goals;
+	String goalsConceded;
+	String cleanSheets;
+	public String getMatchPlayed() {
+		return matchPlayed;
+	}
+	public void setMatchPlayed(String matchPlayed) {
+		this.matchPlayed = matchPlayed;
+	}
+	public String getWins() {
+		return wins;
+	}
+	public void setWins(String wins) {
+		this.wins = wins;
+	}
+	public String getLosses() {
+		return losses;
+	}
+	public void setLosses(String losses) {
+		this.losses = losses;
+	}
+	public String getGoals() {
+		return goals;
+	}
+	public void setGoals(String goals) {
+		this.goals = goals;
+	}
+	public String getGoalsConceded() {
+		return goalsConceded;
+	}
+	public void setGoalsConceded(String goalsConceded) {
+		this.goalsConceded = goalsConceded;
+	}
+	public String getCleanSheets() {
+		return cleanSheets;
+	}
+	public void setCleanSheets(String cleanSheets) {
+		this.cleanSheets = cleanSheets;
+	}
 	public String getId() {
 		return id;
 	}
