@@ -44,7 +44,7 @@ public class TopicController {
 	}
 	
 //	@RequestMapping(value="/topics" , method=RequestMethod.POST)
-	@PostMapping(value="/topics")
+	@PostMapping(value="/createLeague")
 	public Object addTopic(@RequestBody Topic topic){
 //		Object obj = topicService.validateEmpty(topic);
 //		if(obj instanceof ErrorResponse){
