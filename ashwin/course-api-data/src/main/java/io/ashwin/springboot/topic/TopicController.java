@@ -89,4 +89,10 @@ public class TopicController {
 		
 		return topicService.updatePassword(signUpRequest,id);
 	}
+	
+	@RequestMapping("getLeague")
+	public Object getLeague() {
+		
+		return topicService.getLeague();
+	}
 }

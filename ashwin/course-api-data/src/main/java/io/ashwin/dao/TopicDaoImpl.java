@@ -157,6 +157,20 @@ public class TopicDaoImpl implements TopicDao {
 
 	}
 	
+	private static final class LeagueMapper implements RowMapper {
+
+		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
+			Topic c = new Topic();
+
+			
+			
+			c.setLeague(rs.getString("league"));
+			// TODO Auto-generated method stub
+			return c;
+		}
+
+	}
+	
 	private static final class TeamInfoMapper implements RowMapper {
 
 		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -336,6 +350,29 @@ public class TopicDaoImpl implements TopicDao {
 		}
 		}catch(Exception e) {
 			return null;
+		}
+	}
+
+	@Override
+	public Object getLeague() {
+		// TODO Auto-generated method stub
+		String query = "SELECT DISTINCT LEAGUE FROM LEAGUES";
+		
+		try{
+		ArrayList<Topic> list = (ArrayList<Topic>) jdbcTemplate.query(query, new LeagueMapper());
+		TopicResponse topicResp = new TopicResponse();
+		topicResp.setAppStatus(0);
+		topicResp.setStatus("200");
+		topicResp.setSuccessMessage("League Successfully Fetched");
+		topicResp.setLeagueResponse(list);
+		return topicResp;
+		}catch(Exception e){
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("EmailId not Found!");
+			return errorResponse;
 		}
 	}
 }

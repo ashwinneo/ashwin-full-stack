@@ -133,5 +133,10 @@ public class TopicService {
 		Object t = topicDao.updatePassword(signUpRequest, id);
 		return t;
 	}
+	public Object getLeague() {
+		// TODO Auto-generated method stub
+		Object t = topicDao.getLeague();
+		return t;
+	}
 }
 	

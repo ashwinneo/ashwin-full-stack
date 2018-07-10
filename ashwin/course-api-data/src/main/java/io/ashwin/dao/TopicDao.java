@@ -18,4 +18,5 @@ public interface TopicDao {
 	Object registerAccount(SignUpRequest signUpRequest);
 	Object getLoginDetails(String userId, String password, String emailId);
 	Object updatePassword(SignUpRequest signUpRequest, String id);
+	Object getLeague();
 }
