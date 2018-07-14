@@ -4,11 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import io.ashwin.springboot.request.SignUpRequest;
+import io.ashwin.springboot.request.TeamInfo;
+import io.ashwin.springboot.request.TeamSquad;
+import io.ashwin.springboot.request.Topic;
 import io.ashwin.springboot.response.ErrorResponse;
 import io.ashwin.springboot.response.TopicResponse;
-import io.ashwin.springboot.topic.SignUpRequest;
-import io.ashwin.springboot.topic.TeamInfo;
-import io.ashwin.springboot.topic.Topic;
 
 import javax.sql.DataSource;
 
@@ -214,6 +215,22 @@ public class TopicDaoImpl implements TopicDao {
 		}
 
 	}
+	
+	private static final class TeamSquadMapper implements RowMapper {
+
+		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
+			TeamSquad c = new TeamSquad();
+
+			c.setId(rs.getInt("id"));
+			c.setPlayerName(rs.getString("player_name"));
+			c.setKitNumber(rs.getString("kit_number"));
+			c.setPosition(rs.getString("position"));
+			c.setCountry(rs.getString("country"));
+			c.setTeamName(rs.getString("team_name"));
+			return c;
+		}
+
+	}
 
 	@Override
 	public Object getTeamInfo(String name) {
@@ -374,5 +391,27 @@ public class TopicDaoImpl implements TopicDao {
 			errorResponse.setErrorMessage("EmailId not Found!");
 			return errorResponse;
 		}
+	}
+
+	@Override
+	public Object getTeamSquad(String teamName) {
+		String query = "SELECT * FROM TEAM_SQUAD WHERE TEAM_NAME = ?";
+		try{
+			ArrayList<TeamSquad> list = (ArrayList<TeamSquad>) jdbcTemplate.query(query, new Object [] {teamName}, new TeamSquadMapper());
+			TopicResponse topicResp = new TopicResponse();
+			topicResp.setAppStatus(0);
+			topicResp.setStatus("200");
+			topicResp.setSuccessMessage("Team Squad Successfully Fetched");
+			topicResp.setLeagueResponse(list);
+			return topicResp;
+		}catch(Exception e) {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("Error while getting data!!!" + e);
+			return errorResponse;
+		}
+		
 	}
 }

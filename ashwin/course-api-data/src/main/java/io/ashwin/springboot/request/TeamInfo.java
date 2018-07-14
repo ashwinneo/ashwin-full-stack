@@ -1,4 +1,4 @@
-package io.ashwin.springboot.topic;
+package io.ashwin.springboot.request;
 
 public class TeamInfo {
 

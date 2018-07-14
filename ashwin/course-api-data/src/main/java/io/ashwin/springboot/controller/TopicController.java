@@ -1,6 +1,9 @@
-package io.ashwin.springboot.topic;
+package io.ashwin.springboot.controller;
 
+import io.ashwin.springboot.request.SignUpRequest;
+import io.ashwin.springboot.request.Topic;
 import io.ashwin.springboot.response.ErrorResponse;
+import io.ashwin.springboot.topic.TopicService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,5 +97,10 @@ public class TopicController {
 	public Object getLeague() {
 		
 		return topicService.getLeague();
+	}
+	
+	@RequestMapping("getTeamSquad")
+	public Object getTeamSquad(@RequestParam(value="teamName") String teamName) {
+		return this.topicService.getTeamSquad(teamName);
 	}
 }

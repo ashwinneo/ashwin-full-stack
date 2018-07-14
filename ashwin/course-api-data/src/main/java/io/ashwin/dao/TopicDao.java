@@ -1,7 +1,7 @@
 package io.ashwin.dao;
 
-import io.ashwin.springboot.topic.SignUpRequest;
-import io.ashwin.springboot.topic.Topic;
+import io.ashwin.springboot.request.SignUpRequest;
+import io.ashwin.springboot.request.Topic;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -19,4 +19,5 @@ public interface TopicDao {
 	Object getLoginDetails(String userId, String password, String emailId);
 	Object updatePassword(SignUpRequest signUpRequest, String id);
 	Object getLeague();
+	Object getTeamSquad(String teamName);
 }

@@ -1,4 +1,4 @@
-package io.ashwin.springboot.topic;
+package io.ashwin.springboot.request;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
