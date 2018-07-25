@@ -13,8 +13,17 @@ public class SignUpRequest {
 	String state;
 	String city;
 	String zipCode;
+	String path;
 	
 	
+	
+	
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
 	public String getAddress() {
 		return address;
 	}

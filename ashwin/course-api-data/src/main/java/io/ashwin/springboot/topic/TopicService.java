@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Service
 public class TopicService {
@@ -143,6 +145,16 @@ public class TopicService {
 	public Object getTeamSquad(String teamName) {
 		// TODO Auto-generated method stub
 		Object t = topicDao.getTeamSquad(teamName);
+		return t;
+	}
+	public Object uploadImage(SignUpRequest signUpRequest, MultipartFile file, RedirectAttributes redirectAttributes) {
+		
+		Object t = topicDao.uploadImage(signUpRequest,file,redirectAttributes);
+		return t;
+	}
+	public Object getManagerDetails(String name) {
+		// TODO Auto-generated method stub
+		Object t = topicDao.getManagerDetails(name);
 		return t;
 	}
 }

@@ -5,6 +5,8 @@ import io.ashwin.springboot.request.Topic;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Repository
 public interface TopicDao {
@@ -20,4 +22,6 @@ public interface TopicDao {
 	Object updatePassword(SignUpRequest signUpRequest, String id);
 	Object getLeague();
 	Object getTeamSquad(String teamName);
+	Object uploadImage(SignUpRequest signUpRequest, MultipartFile file, RedirectAttributes redirectAttributes);
+	Object getManagerDetails(String name);
 }

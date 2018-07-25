@@ -1,9 +1,14 @@
 package io.ashwin.dao;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import io.ashwin.springboot.request.ManagerInfo;
 import io.ashwin.springboot.request.SignUpRequest;
 import io.ashwin.springboot.request.TeamInfo;
 import io.ashwin.springboot.request.TeamSquad;
@@ -19,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Repository
 public class TopicDaoImpl implements TopicDao {
@@ -231,6 +238,29 @@ public class TopicDaoImpl implements TopicDao {
 		}
 
 	}
+	
+	private static final class ManagerInfoMapper implements RowMapper {
+
+		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
+			ManagerInfo c = new ManagerInfo();
+			c.setId(rs.getString("id"));
+			c.setName(rs.getString("name"));
+			c.setCountry(rs.getString("country"));
+			c.setJoinedDate(rs.getString("joinDate"));
+			c.setAge(rs.getString("age"));
+			c.setDob(rs.getDate("dob"));
+			c.setSeasons(rs.getString("seasons"));
+			c.setMatches(rs.getString("matches"));
+			c.setWins(rs.getString("wins"));
+			c.setDraws(rs.getString("draws"));
+			c.setLosses(rs.getString("losses"));
+			c.setGf(rs.getString("gf"));
+			c.setGa(rs.getString("ga"));
+			
+			return c;
+		}
+
+	}
 
 	@Override
 	public Object getTeamInfo(String name) {
@@ -314,7 +344,7 @@ public class TopicDaoImpl implements TopicDao {
 		TopicResponse topicResp = new TopicResponse();
 		topicResp.setAppStatus(0);
 		topicResp.setStatus("200");
-		topicResp.setSuccessMessage("Team Infomation Successfully Fetched");
+		topicResp.setSuccessMessage("User Infomation Successfully Fetched");
 		topicResp.setLeagueResponse(j1);
 		return topicResp;
 		}catch(Exception e){
@@ -322,7 +352,7 @@ public class TopicDaoImpl implements TopicDao {
 			errorResponse.setAppStatus(1);
 			errorResponse.setStatus("200");
 			errorResponse.setErrorId(1000);
-			errorResponse.setErrorMessage("EmailId not Found!");
+			errorResponse.setErrorMessage("Error or Data Not Found!");
 			return errorResponse;
 		}
 	}
@@ -410,6 +440,98 @@ public class TopicDaoImpl implements TopicDao {
 			errorResponse.setStatus("200");
 			errorResponse.setErrorId(1000);
 			errorResponse.setErrorMessage("Error while getting data!!!" + e);
+			return errorResponse;
+		}
+		
+	}
+	private static String UPLOADED_FOLDER = "E://temp//";
+	@Override
+	public Object uploadImage(SignUpRequest signUpRequest, MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		// TODO Auto-generated method stub
+		String query = "UPDATE USER SET PATH = ? WHERE ID = ?";
+		int count = 0;
+		Path path = null;
+		if (file.isEmpty()) {
+          redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+          return "redirect:uploadStatus";
+      }
+
+      try {
+
+          // Get the file and save it somewhere
+          byte[] bytes = file.getBytes();
+          path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+          Files.write(path, bytes);
+          System.out.println("path" + "--->" + path);
+          redirectAttributes.addFlashAttribute("message",
+                  "You successfully uploaded '" + file.getOriginalFilename() + "'");
+
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+		try{
+		count = jdbcTemplate.update(query,path,signUpRequest.getId());
+		if (count == 1) {
+			TopicResponse topicResp = new TopicResponse();
+			topicResp.setAppStatus(0);
+			topicResp.setStatus("200");
+			topicResp.setSuccessMessage("Image Successfully Updated");
+			topicResp.setLeagueResponse(signUpRequest.getPath());
+			return topicResp;
+		} else {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("Error while updating password");
+			return errorResponse;
+		}
+		}catch(Exception e) {
+			return null;
+		}
+		
+	}
+
+	@Override
+	public Object getManagerDetails(String name) {
+		// TODO Auto-generated method stub
+		String query = "SELECT * FROM MANAGER_INFO WHERE NAME = ?";
+		try {
+		ManagerInfo list = (ManagerInfo) jdbcTemplate.queryForObject(query, new Object[] { name } , new ManagerInfoMapper());
+		
+		JSONObject jo = new JSONObject();
+		jo.put("seasons",list.getSeasons());
+		jo.put("matches",list.getMatches());
+		jo.put("wins",list.getWins());
+		jo.put("draws",list.getDraws());
+		jo.put("losses",list.getLosses());
+		jo.put("gf",list.getGf());
+		jo.put("ga",list.getGa());
+		
+		JSONObject stats = new JSONObject();
+		stats.put("stats", jo);
+		
+		JSONObject j1 = new JSONObject();
+		j1.put("id",list.getId());
+		j1.put("name",list.getName());
+		j1.put("country",list.getCountry());
+		j1.put("joinDate",list.getJoinedDate());
+		j1.put("age",list.getAge());
+		j1.put("dob",list.getDob());
+		j1.putAll(stats);
+		TopicResponse topicResp = new TopicResponse();
+		topicResp.setAppStatus(0);
+		topicResp.setStatus("200");
+		topicResp.setSuccessMessage("Manager Infomation Successfully Fetched");
+		topicResp.setLeagueResponse(j1);
+		return topicResp;
+		}catch(Exception e){
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("No data Found!" + e);
 			return errorResponse;
 		}
 		

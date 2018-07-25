@@ -5,6 +5,10 @@ import io.ashwin.springboot.request.Topic;
 import io.ashwin.springboot.response.ErrorResponse;
 import io.ashwin.springboot.topic.TopicService;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -99,8 +105,45 @@ public class TopicController {
 		return topicService.getLeague();
 	}
 	
+	private static String UPLOADED_FOLDER = "E://temp//";
+
+	
 	@RequestMapping("getTeamSquad")
 	public Object getTeamSquad(@RequestParam(value="teamName") String teamName) {
 		return this.topicService.getTeamSquad(teamName);
 	}
+	
+	@PostMapping("/upload") // //new annotation since 4.3
+    public Object singleFileUpload(@RequestBody SignUpRequest signUpRequest,@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+		
+		return topicService.uploadImage(signUpRequest,file,redirectAttributes);
+		
+//        if (file.isEmpty()) {
+//            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+//            return "redirect:uploadStatus";
+//        }
+//
+//        try {
+//
+//            // Get the file and save it somewhere
+//            byte[] bytes = file.getBytes();
+//            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+//            Files.write(path, bytes);
+//            System.out.println("path" + "--->" + path);
+//            redirectAttributes.addFlashAttribute("message",
+//                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return "redirect:/uploadStatus";
+    }
+	
+	@RequestMapping("getManagerDetails")
+	public Object getManagerDetails(@RequestParam("name") String name) {
+		return topicService.getManagerDetails(name);
+	}
+
 }
