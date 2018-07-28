@@ -1,6 +1,7 @@
 package io.ashwin.springboot.controller;
 
 import io.ashwin.springboot.request.SignUpRequest;
+import io.ashwin.springboot.request.TeamInfo;
 import io.ashwin.springboot.request.Topic;
 import io.ashwin.springboot.response.ErrorResponse;
 import io.ashwin.springboot.topic.TopicService;
@@ -145,5 +146,14 @@ public class TopicController {
 	public Object getManagerDetails(@RequestParam("name") String name) {
 		return topicService.getManagerDetails(name);
 	}
-
+	
+	@PutMapping("updateTeamInfo")
+	public Object updateTeamInfo(@RequestBody TeamInfo teamInfo){
+		return topicService.updateTeamInfo(teamInfo);
+	}
+	
+	@PutMapping("updateTeamName")
+	public Object updateTeamName(@RequestBody Topic topic) {
+		return topicService.updateTeamName(topic);
+	}
 }

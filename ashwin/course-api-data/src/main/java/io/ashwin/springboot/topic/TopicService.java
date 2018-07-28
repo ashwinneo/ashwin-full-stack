@@ -2,6 +2,7 @@ package io.ashwin.springboot.topic;
 
 import io.ashwin.dao.TopicDao;
 import io.ashwin.springboot.request.SignUpRequest;
+import io.ashwin.springboot.request.TeamInfo;
 import io.ashwin.springboot.request.Topic;
 import io.ashwin.springboot.response.ErrorResponse;
 import io.ashwin.springboot.response.TopicResponse;
@@ -155,6 +156,16 @@ public class TopicService {
 	public Object getManagerDetails(String name) {
 		// TODO Auto-generated method stub
 		Object t = topicDao.getManagerDetails(name);
+		return t;
+	}
+	public Object updateTeamInfo(TeamInfo teamInfo) {
+		// TODO Auto-generated method stub
+		Object t = topicDao.updateteamInfo(teamInfo);
+		return t;
+	}
+	public Object updateTeamName(Topic topic) {
+		// TODO Auto-generated method stub
+		Object t = topicDao.updateTeamName(topic);
 		return t;
 	}
 }

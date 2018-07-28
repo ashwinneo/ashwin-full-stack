@@ -536,4 +536,73 @@ public class TopicDaoImpl implements TopicDao {
 		}
 		
 	}
+
+	@Override
+	public Object updateteamInfo(TeamInfo teamInfo) {
+		// TODO Auto-generated method stub
+		String query = "UPDATE TEAM_INFO SET teamName=?, manager=?, stadium=?, location=? where id=?";
+		int count = 0;
+		
+		try{
+			count = jdbcTemplate.update(query, teamInfo.getTeamName(), teamInfo.getManager(),teamInfo.getStadium(), teamInfo.getLocation(), teamInfo.getId());
+			if(count == 1){
+				TopicResponse topicResp = new TopicResponse();
+				topicResp.setAppStatus(0);
+				topicResp.setStatus("200");
+				topicResp.setSuccessMessage("Team Information Successfully Updated");
+				topicResp.setLeagueResponse(teamInfo.getId());
+				return topicResp;
+			} else {
+				ErrorResponse errorResponse = new ErrorResponse();
+				errorResponse.setAppStatus(1);
+				errorResponse.setStatus("200");
+				errorResponse.setErrorId(1000);
+				errorResponse.setErrorMessage("Error while updating password");
+				return errorResponse;
+			}
+		}catch(Exception e){
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("Error while updating password" + " " + e);
+			return errorResponse;
+		}
+		
+	}
+
+	@Override
+	public Object updateTeamName(Topic topic) {
+		// TODO Auto-generated method stub
+		String query = "UPDATE LEAGUES SET NAME=? WHERE ID=?";
+		int count = 0;
+		
+		try{
+			count = jdbcTemplate.update(query, topic.getName(),topic.getId());
+			
+			if(count == 1) {
+				TopicResponse topicResp = new TopicResponse();
+				topicResp.setAppStatus(0);
+				topicResp.setStatus("200");
+				topicResp.setSuccessMessage("Team Name Successfully Updated");
+				topicResp.setLeagueResponse(topic.getId());
+				return topicResp;
+			} else {
+				ErrorResponse errorResponse = new ErrorResponse();
+				errorResponse.setAppStatus(1);
+				errorResponse.setStatus("200");
+				errorResponse.setErrorId(1000);
+				errorResponse.setErrorMessage("Error while updating password" + " ");
+				return errorResponse;
+			}
+			
+		}catch(Exception e){
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setAppStatus(1);
+			errorResponse.setStatus("200");
+			errorResponse.setErrorId(1000);
+			errorResponse.setErrorMessage("Exception" + " " + e);
+			return errorResponse;
+		}
+	}
 }

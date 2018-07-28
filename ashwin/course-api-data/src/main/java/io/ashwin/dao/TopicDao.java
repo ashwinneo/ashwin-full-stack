@@ -1,6 +1,7 @@
 package io.ashwin.dao;
 
 import io.ashwin.springboot.request.SignUpRequest;
+import io.ashwin.springboot.request.TeamInfo;
 import io.ashwin.springboot.request.Topic;
 
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,6 @@ public interface TopicDao {
 	Object getTeamSquad(String teamName);
 	Object uploadImage(SignUpRequest signUpRequest, MultipartFile file, RedirectAttributes redirectAttributes);
 	Object getManagerDetails(String name);
+	Object updateteamInfo(TeamInfo teamInfo);
+	Object updateTeamName(Topic topic);
 }
