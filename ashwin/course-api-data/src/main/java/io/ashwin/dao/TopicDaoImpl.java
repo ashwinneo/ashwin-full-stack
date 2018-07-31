@@ -1,13 +1,11 @@
 package io.ashwin.dao;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
+import io.ashwin.springboot.mapper.LeagueMapper;
+import io.ashwin.springboot.mapper.LoginMapper;
+import io.ashwin.springboot.mapper.ManagerInfoMapper;
+import io.ashwin.springboot.mapper.TeamInfoMapper;
+import io.ashwin.springboot.mapper.TeamSquadMapper;
+import io.ashwin.springboot.mapper.TopicMapper;
 import io.ashwin.springboot.request.ManagerInfo;
 import io.ashwin.springboot.request.SignUpRequest;
 import io.ashwin.springboot.request.TeamInfo;
@@ -17,13 +15,18 @@ import io.ashwin.springboot.response.ErrorResponse;
 import io.ashwin.springboot.response.TopicResponse;
 import io.ashwin.springboot.util.QueryConfig;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
 import javax.sql.DataSource;
 
 import net.minidev.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -148,146 +151,7 @@ public class TopicDaoImpl implements TopicDao {
 			return topicResp;
 		}
 		return null;
-	}
-
-	private static final class TopicMapper implements RowMapper {
-
-		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-			Topic c = new Topic();
-
-			c.setId(rs.getString("ID"));
-			c.setName(rs.getString("Name"));
-			c.setManager(rs.getString("Manager"));
-			c.setCountry(rs.getString("Country"));
-			c.setLeague(rs.getString("league"));
-			// TODO Auto-generated method stub
-			return c;
-		}
-
-	}
-	
-	private static final class LeagueMapper implements RowMapper {
-
-		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-			Topic c = new Topic();
-
-			
-			
-			c.setLeague(rs.getString("league"));
-			// TODO Auto-generated method stub
-			return c;
-		}
-
-	}
-	
-	private static final class TeamInfoMapper implements RowMapper {
-
-		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-			TeamInfo c = new TeamInfo();
-
-			c.setId(rs.getString("ID"));
-			c.setTeamName(rs.getString("teamName"));
-			c.setManager(rs.getString("manager"));
-			c.setStadium(rs.getString("stadium"));
-			c.setLocation(rs.getString("location"));
-			c.setTeamSponsor(rs.getString("teamSponsor"));
-			c.setTeamKitSponsor(rs.getString("teamKitSponsor"));
-			c.setMatchPlayed(rs.getString("matchPlayed"));
-			c.setWins(rs.getString("wins"));
-			c.setLosses(rs.getString("losses"));
-			c.setGoals(rs.getString("goals"));
-			c.setGoalsConceded(rs.getString("goalsConceded"));
-			c.setCleanSheets(rs.getString("cleanSheets"));
-			c.setCrosses(rs.getInt("passes"));
-			c.setPasses(rs.getInt("crosses"));
-			c.setPassesPerMatch(rs.getFloat("passes_per_match"));
-			c.setFoul(rs.getInt("foul"));
-			c.setOffsides(rs.getInt("offsides"));
-			c.setYellowCards(rs.getInt("yellow_cards"));
-			c.setRedCards(rs.getInt("red_cards"));
-			c.setTotalGoals(rs.getInt("totalGoals"));
-			c.setGoalsPerMatch(rs.getFloat("goal_per_match"));
-			c.setShots(rs.getInt("shots"));
-			c.setShotsOnTarget(rs.getInt("shots_on_target"));
-			c.setPenaltiesScored(rs.getInt("penalties_scored"));
-			c.setBigChancesCreated(rs.getInt("big_chances_created"));
-			c.setHitWoodWork(rs.getInt("hit_woodwork"));
-			c.setTotalCleanSheets(rs.getInt("clean_sheets"));
-			c.setTotalGoalsConceded(rs.getInt("total_goals_conceded"));
-			c.setGoalsConcededPerMatch(rs.getFloat("total_goals_conceded_per_match"));
-			c.setSaves(rs.getInt("saves"));
-			c.setTackles(rs.getInt("tackles"));
-			c.setBlockedShots(rs.getInt("blocked_shots"));
-			c.setInterceptions(rs.getInt("interception"));
-			c.setClearances(rs.getInt("clearance"));
-			c.setHeadedClearances(rs.getInt("headed_clearance"));
-			c.setAreilBattlesWon(rs.getInt("aerial_battles"));
-			c.setErrorsLeadingtoGoal(rs.getInt("errors_leading"));
-			c.setOwnGoals(rs.getInt("own_goals"));
-			return c;
-		}
-
-	}
-	
-	private static final class LoginMapper implements RowMapper {
-
-		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-			SignUpRequest c = new SignUpRequest();
-
-			c.setFullName(rs.getString("full_name"));
-			c.setEmail(rs.getString("email"));
-			c.setUserName(rs.getString("user_name"));
-			c.setPassword(rs.getString("password"));
-			c.setRepeatPassword(rs.getString("repeat_password"));
-			c.setId(rs.getString("id"));
-			c.setAddress(rs.getString("address"));
-			c.setCountry(rs.getString("country"));
-			c.setState(rs.getString("state"));
-			c.setCity(rs.getString("city"));
-			c.setZipCode(rs.getString("zipcode"));
-			return c;
-		}
-
-	}
-	
-	private static final class TeamSquadMapper implements RowMapper {
-
-		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-			TeamSquad c = new TeamSquad();
-
-			c.setId(rs.getInt("id"));
-			c.setPlayerName(rs.getString("player_name"));
-			c.setKitNumber(rs.getString("kit_number"));
-			c.setPosition(rs.getString("position"));
-			c.setCountry(rs.getString("country"));
-			c.setTeamName(rs.getString("team_name"));
-			return c;
-		}
-
-	}
-	
-	private static final class ManagerInfoMapper implements RowMapper {
-
-		public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-			ManagerInfo c = new ManagerInfo();
-			c.setId(rs.getString("id"));
-			c.setName(rs.getString("name"));
-			c.setCountry(rs.getString("country"));
-			c.setJoinedDate(rs.getString("joinDate"));
-			c.setAge(rs.getString("age"));
-			c.setDob(rs.getDate("dob"));
-			c.setSeasons(rs.getString("seasons"));
-			c.setMatches(rs.getString("matches"));
-			c.setWins(rs.getString("wins"));
-			c.setDraws(rs.getString("draws"));
-			c.setLosses(rs.getString("losses"));
-			c.setGf(rs.getString("gf"));
-			c.setGa(rs.getString("ga"));
-			
-			return c;
-		}
-
-	}
+	}	
 
 	@Override
 	public Object getTeamInfo(String name) {

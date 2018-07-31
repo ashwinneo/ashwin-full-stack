@@ -5,20 +5,12 @@ import io.ashwin.springboot.request.SignUpRequest;
 import io.ashwin.springboot.request.TeamInfo;
 import io.ashwin.springboot.request.Topic;
 import io.ashwin.springboot.response.ErrorResponse;
-import io.ashwin.springboot.response.TopicResponse;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
