@@ -15,6 +15,7 @@ import io.ashwin.springboot.request.TeamSquad;
 import io.ashwin.springboot.request.Topic;
 import io.ashwin.springboot.response.ErrorResponse;
 import io.ashwin.springboot.response.TopicResponse;
+import io.ashwin.springboot.util.QueryConfig;
 
 import javax.sql.DataSource;
 
@@ -34,11 +35,14 @@ public class TopicDaoImpl implements TopicDao {
 	private DataSource dataSource;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private QueryConfig queryConfig;
 
 	@Override
 	public Object getTopicById(String league, String name) {
 		// TODO Auto-generated method stub
-		String query = "SELECT * FROM LEAGUES WHERE LEAGUE=? OR NAME=?";
+		String query = queryConfig.getGetLeagueByName();
 		try {
 //			Topic t = (Topic) jdbcTemplate.queryForObject(query,
 //					new Object[] { league }, new TopicMapper());
@@ -66,7 +70,7 @@ public class TopicDaoImpl implements TopicDao {
 
 	public Object getTopics() {
 
-		String query = "SELECT * FROM LEAGUES";
+		String query = queryConfig.getGetAllLeagues();
 		try {
 			ArrayList<Topic> topics1 = (ArrayList<Topic>) jdbcTemplate.query(
 					query, new TopicMapper());
@@ -90,8 +94,7 @@ public class TopicDaoImpl implements TopicDao {
 
 	public Object addTopic(Topic topic) {
 		
-		String query = "INSERT INTO LEAGUES (NAME,MANAGER,COUNTRY,LEAGUE) VALUES (?,?,?,?)";
-		//return null;
+		String query = queryConfig.getCreateLeague();
 		int count = jdbcTemplate.update(query, topic.getName(),
 				topic.getManager(),topic.getCountry(),topic.getLeague());
 		if (count == 1) {
@@ -112,8 +115,7 @@ public class TopicDaoImpl implements TopicDao {
 	}
 
 	public Object updateTopic(Topic topic, String id) {
-		String query = "UPDATE LEAGUES SET name=? , manager=? , country=? , league=? where ID=?";
-		
+		String query = queryConfig.getEditLeague();
 		int count = jdbcTemplate.update(query, topic.getName(),
 				topic.getManager(),topic.getCountry(),topic.getLeague(),topic.getId());
 
@@ -135,8 +137,7 @@ public class TopicDaoImpl implements TopicDao {
 	}
 
 	public Object deleteTopic(String id) {
-
-		String query = "DELETE FROM LEAGUES WHERE ID=?";
+		String query = queryConfig.getDeleteLeague();
 		int count = jdbcTemplate.update(query, new Object[] { id });
 		if (count == 1) {
 			TopicResponse topicResp = new TopicResponse();
@@ -291,7 +292,7 @@ public class TopicDaoImpl implements TopicDao {
 	@Override
 	public Object getTeamInfo(String name) {
 		// TODO Auto-generated method stub
-		String query = "SELECT * FROM TEAM_INFO WHERE TEAMNAME = ?";
+		String query = queryConfig.getGetTeamInfoByName();
 		try {
 //			Topic t = (Topic) jdbcTemplate.queryForObject(query,
 //					new Object[] { league }, new TopicMapper());
@@ -369,10 +370,7 @@ public class TopicDaoImpl implements TopicDao {
 	}
 	
 	public Object registerAccount(SignUpRequest signUpRequest){
-		
-		String query = "INSERT INTO USER (FULL_NAME,EMAIL,USER_NAME,PASSWORD,REPEAT_PASSWORD,ADDRESS,COUNTRY,STATE,CITY,ZIPCODE) "
-				+ "VALUES (?,?,?,?,?,?,?,?,?,?)";
-		
+		String query = queryConfig.getRegisterAccount();
 		int count = jdbcTemplate.update(query, signUpRequest.getFullName(),signUpRequest.getEmail()
 				,signUpRequest.getUserName(),signUpRequest.getPassword()
 				,signUpRequest.getRepeatPassword(),signUpRequest.getAddress(),signUpRequest.getCountry(),signUpRequest.getState(),signUpRequest.getCity(),signUpRequest.getZipCode());
@@ -394,8 +392,7 @@ public class TopicDaoImpl implements TopicDao {
 	}
 	
 	public Object getLoginDetails(String userId, String password, String emailId) {
-		
-		String query = "SELECT * FROM USER WHERE user_name = ? OR password = ? OR email = ?";
+		String query = queryConfig.getGetLoginDetails();
 		try{
 		SignUpRequest list = (SignUpRequest) jdbcTemplate.queryForObject(query,new Object[] { userId, password, emailId },
 				new LoginMapper());
@@ -442,9 +439,9 @@ public class TopicDaoImpl implements TopicDao {
 		int count = 0;
 		
 		if(signUpRequest.getAddress() == null){
-		 query = "UPDATE USER SET password=? , repeat_password=? where id=?";
+		 query = queryConfig.getUpdatePassword();
 		} else {
-		 query = "UPDATE USER SET full_name=?,email=?,user_name=?,address=?,country=?,state=?,city=?,zipcode=? where id=?";
+		 query = queryConfig.getUpdateProfile();
 		 userFlag = true;
 		}
 		try{
@@ -480,8 +477,7 @@ public class TopicDaoImpl implements TopicDao {
 	@Override
 	public Object getLeague() {
 		// TODO Auto-generated method stub
-		String query = "SELECT DISTINCT LEAGUE FROM LEAGUES";
-		
+		String query = queryConfig.getGetLeague();
 		try{
 		ArrayList<Topic> list = (ArrayList<Topic>) jdbcTemplate.query(query, new LeagueMapper());
 		TopicResponse topicResp = new TopicResponse();
@@ -502,7 +498,7 @@ public class TopicDaoImpl implements TopicDao {
 
 	@Override
 	public Object getTeamSquad(String teamName) {
-		String query = "SELECT * FROM TEAM_SQUAD WHERE TEAM_NAME = ?";
+		String query = queryConfig.getGetTeamSquad();
 		try{
 			ArrayList<TeamSquad> list = (ArrayList<TeamSquad>) jdbcTemplate.query(query, new Object [] {teamName}, new TeamSquadMapper());
 			TopicResponse topicResp = new TopicResponse();
@@ -573,7 +569,7 @@ public class TopicDaoImpl implements TopicDao {
 	@Override
 	public Object getManagerDetails(String name) {
 		// TODO Auto-generated method stub
-		String query = "SELECT * FROM MANAGER_INFO WHERE NAME = ?";
+		String query = queryConfig.getGetManagerInfo();
 		try {
 		ManagerInfo list = (ManagerInfo) jdbcTemplate.queryForObject(query, new Object[] { name } , new ManagerInfoMapper());
 		
@@ -617,7 +613,7 @@ public class TopicDaoImpl implements TopicDao {
 	@Override
 	public Object updateteamInfo(TeamInfo teamInfo) {
 		// TODO Auto-generated method stub
-		String query = "UPDATE TEAM_INFO SET teamName=?, manager=?, stadium=?, location=? where id=?";
+		String query = queryConfig.getUpdateTeamInfo();
 		int count = 0;
 		
 		try{
@@ -651,7 +647,7 @@ public class TopicDaoImpl implements TopicDao {
 	@Override
 	public Object updateTeamName(Topic topic) {
 		// TODO Auto-generated method stub
-		String query = "UPDATE LEAGUES SET NAME=? WHERE ID=?";
+		String query = queryConfig.getUpdateTeamName();
 		int count = 0;
 		
 		try{
