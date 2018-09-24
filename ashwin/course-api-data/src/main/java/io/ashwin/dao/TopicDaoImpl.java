@@ -23,7 +23,9 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
-import net.minidev.json.JSONObject;
+import org.json.JSONObject;
+
+//import net.minidev.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -163,62 +165,62 @@ public class TopicDaoImpl implements TopicDao {
 			TeamInfo league1 = (TeamInfo) jdbcTemplate.queryForObject(
 					query,new Object[] { name }, new TeamInfoMapper());
 			System.out.println(league1);
-			JSONObject jo = new JSONObject();
-			jo.put("passes", league1.getPasses());
-			jo.put("crosses", league1.getCrosses());
-			jo.put("passesPerMatch", league1.getPassesPerMatch());
-			jo.put("foul", league1.getFoul());
-			jo.put("offsides", league1.getOffsides());
-			jo.put("yellowCards", league1.getYellowCards());
-			jo.put("redCards", league1.getRedCards());
-			JSONObject j1 = new JSONObject();
-			j1.put("teamPlayDiscipline", jo);
-			
-			JSONObject j2 = new JSONObject();
-			j2.put("totalGoals", league1.getTotalGoals());
-			j2.put("goalsPerMatch", league1.getGoalsPerMatch());
-			j2.put("shots", league1.getShots());
-			j2.put("shotsOnTarget", league1.getShotsOnTarget());
-			j2.put("penaltiesScored", league1.getPenaltiesScored());
-			j2.put("bigChancesCreated", league1.getBigChancesCreated());
-			j2.put("hitWoodWork", league1.getHitWoodWork());
-			j2.put("cleanSheets", league1.getTotalCleanSheets());
-			j2.put("goalsConceded",league1.getTotalGoalsConceded());
-			j2.put("goalsConcededPerMatch", league1.getGoalsConcededPerMatch());
-			j2.put("saves", league1.getSaves());
-			j2.put("tackles", league1.getTackles());
-			j2.put("blockedShots", league1.getBlockedShots());
-			j2.put("interception", league1.getInterceptions());
-			j2.put("clearances", league1.getClearances());
-			j2.put("headedClearance", league1.getHeadedClearances());
-			j2.put("arielBattles", league1.getAreilBattlesWon());
-			j2.put("errorsLeading", league1.getErrorsLeadingtoGoal());
-			j2.put("ownGoals", league1.getOwnGoals());
-			JSONObject j3 = new JSONObject();
-			j3.put("attackDefense", j2);
-			
-			JSONObject mainObj = new JSONObject();
-			mainObj.put("id", league1.getId());
-			mainObj.put("teamName", league1.getTeamName());
-			mainObj.put("manager", league1.getManager());
-			mainObj.put("stadium", league1.getStadium());
-			mainObj.put("location", league1.getLocation());
-			mainObj.put("teamSponsor", league1.getTeamSponsor());
-			mainObj.put("teamKitSponsor", league1.getTeamKitSponsor());
-			mainObj.put("matchPlayed", league1.getMatchPlayed());
-			mainObj.put("wins", league1.getWins());
-			mainObj.put("losses", league1.getLosses());
-			mainObj.put("goals", league1.getGoals());
-			mainObj.put("goalsConceded", league1.getGoalsConceded());
-			mainObj.put("cleanSheets", league1.getCleanSheets());
-			mainObj.putAll(j1);
-			mainObj.putAll(j3);
+//			JSONObject jo = new JSONObject();
+//			jo.put("passes", league1.getPasses());
+//			jo.put("crosses", league1.getCrosses());
+//			jo.put("passesPerMatch", league1.getPassesPerMatch());
+//			jo.put("foul", league1.getFoul());
+//			jo.put("offsides", league1.getOffsides());
+//			jo.put("yellowCards", league1.getYellowCards());
+//			jo.put("redCards", league1.getRedCards());
+//			JSONObject j1 = new JSONObject();
+//			j1.put("teamPlayDiscipline", jo);
+//			
+//			JSONObject j2 = new JSONObject();
+//			j2.put("totalGoals", league1.getTotalGoals());
+//			j2.put("goalsPerMatch", league1.getGoalsPerMatch());
+//			j2.put("shots", league1.getShots());
+//			j2.put("shotsOnTarget", league1.getShotsOnTarget());
+//			j2.put("penaltiesScored", league1.getPenaltiesScored());
+//			j2.put("bigChancesCreated", league1.getBigChancesCreated());
+//			j2.put("hitWoodWork", league1.getHitWoodWork());
+//			j2.put("cleanSheets", league1.getTotalCleanSheets());
+//			j2.put("goalsConceded",league1.getTotalGoalsConceded());
+//			j2.put("goalsConcededPerMatch", league1.getGoalsConcededPerMatch());
+//			j2.put("saves", league1.getSaves());
+//			j2.put("tackles", league1.getTackles());
+//			j2.put("blockedShots", league1.getBlockedShots());
+//			j2.put("interception", league1.getInterceptions());
+//			j2.put("clearances", league1.getClearances());
+//			j2.put("headedClearance", league1.getHeadedClearances());
+//			j2.put("arielBattles", league1.getAreilBattlesWon());
+//			j2.put("errorsLeading", league1.getErrorsLeadingtoGoal());
+//			j2.put("ownGoals", league1.getOwnGoals());
+//			JSONObject j3 = new JSONObject();
+//			j3.put("attackDefense", j2);
+//			
+//			JSONObject mainObj = new JSONObject();
+//			mainObj.put("id", league1.getId());
+//			mainObj.put("teamName", league1.getTeamName());
+//			mainObj.put("manager", league1.getManager());
+//			mainObj.put("stadium", league1.getStadium());
+//			mainObj.put("location", league1.getLocation());
+//			mainObj.put("teamSponsor", league1.getTeamSponsor());
+//			mainObj.put("teamKitSponsor", league1.getTeamKitSponsor());
+//			mainObj.put("matchPlayed", league1.getMatchPlayed());
+//			mainObj.put("wins", league1.getWins());
+//			mainObj.put("losses", league1.getLosses());
+//			mainObj.put("goals", league1.getGoals());
+//			mainObj.put("goalsConceded", league1.getGoalsConceded());
+//			mainObj.put("cleanSheets", league1.getCleanSheets());
+//			mainObj.putAll(j1);
+//			mainObj.putAll(j3);s
 			
 			TopicResponse topicResp = new TopicResponse();
 			topicResp.setAppStatus(0);
 			topicResp.setStatus("200");
 			topicResp.setSuccessMessage("Team Infomation Successfully Fetched");
-			topicResp.setLeagueResponse(mainObj);
+			topicResp.setLeagueResponse(league1);
 			return topicResp;
 			// return topics;
 		} catch (Exception e) {
@@ -261,29 +263,29 @@ public class TopicDaoImpl implements TopicDao {
 		SignUpRequest list = (SignUpRequest) jdbcTemplate.queryForObject(query,new Object[] { userId, password, emailId },
 				new LoginMapper());
 		
-		JSONObject jo = new JSONObject();
-		jo.put("address",list.getAddress());
-		jo.put("country", list.getCountry());
-		jo.put("city", list.getCity());
-		jo.put("zipcode", list.getZipCode());
-		jo.put("state", list.getState());
-		JSONObject personalDetails = new JSONObject();
-		personalDetails.put("userDetails", jo);
-		
-		JSONObject j1 = new JSONObject();
-		j1.put("fullName", list.getFullName());
-		j1.put("email", list.getEmail());
-		j1.put("userName", list.getUserName());
-		j1.put("password", list.getPassword());
-		j1.put("repeatPassword", list.getRepeatPassword());
-		j1.put("id", list.getId());
-		j1.putAll(personalDetails);
+//		JSONObject jo = new JSONObject();
+//		jo.put("address",list.getAddress());
+//		jo.put("country", list.getCountry());
+//		jo.put("city", list.getCity());
+//		jo.put("zipcode", list.getZipCode());
+//		jo.put("state", list.getState());
+//		JSONObject personalDetails = new JSONObject();
+//		personalDetails.put("userDetails", jo);
+//		
+//		JSONObject j1 = new JSONObject();
+//		j1.put("fullName", list.getFullName());
+//		j1.put("email", list.getEmail());
+//		j1.put("userName", list.getUserName());
+//		j1.put("password", list.getPassword());
+//		j1.put("repeatPassword", list.getRepeatPassword());
+//		j1.put("id", list.getId());
+//		j1.put("personalDetails", personalDetails);
 		
 		TopicResponse topicResp = new TopicResponse();
 		topicResp.setAppStatus(0);
 		topicResp.setStatus("200");
 		topicResp.setSuccessMessage("User Infomation Successfully Fetched");
-		topicResp.setLeagueResponse(j1);
+		topicResp.setLeagueResponse(list);
 		return topicResp;
 		}catch(Exception e){
 			ErrorResponse errorResponse = new ErrorResponse();
@@ -456,7 +458,7 @@ public class TopicDaoImpl implements TopicDao {
 		j1.put("joinDate",list.getJoinedDate());
 		j1.put("age",list.getAge());
 		j1.put("dob",list.getDob());
-		j1.putAll(stats);
+		//j1.putAll(stats);
 		TopicResponse topicResp = new TopicResponse();
 		topicResp.setAppStatus(0);
 		topicResp.setStatus("200");
